@@ -116,7 +116,7 @@ function initialize() {
 	var light = new THREE.PointLight( 0xffffff, 1, 100 );
 	light.position.set( 0, 10, 0 );
 	light.castShadow = true;            // default false
-	markerRoot1.add( light );
+	scene.add( light );
 
 	//Set up shadow properties for the light
 	light.shadow.mapSize.width = 512;  // default
@@ -137,7 +137,7 @@ function initialize() {
 					mesh0.position.y = 0.2;
 					mesh0.position.z = 3.5;
 					mesh0.rotation.x = Math.PI / -2;
-					mesh0.scale.set(2, 2, 2);
+					mesh0.scale.set(1, 1, 1);
 					markerRoot1.add(mesh0);
 					mesh0.castShadow = true; //default is false
 					mesh0.receiveShadow = false; //default
