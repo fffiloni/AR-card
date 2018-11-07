@@ -100,16 +100,29 @@ function initialize() {
 	let markerControls1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
 		type: 'pattern', patternUrl: "https://cdn.jsdelivr.net/gh/stemkoski/AR-Examples/data/hiro.patt",
 	})
-  // let geometry1 = new THREE.PlaneBufferGeometry(1,1, 4,4);
-	// let loader = new THREE.TextureLoader();
+  	let geometry1 = new THREE.PlaneBufferGeometry(1,1, 4,4);
+	let loader = new THREE.TextureLoader();
 	// //let texture = loader.load( 'models/Tex_Eagle.png', render );
-	// let material1 = new THREE.MeshBasicMaterial( { color: 0x0000ff, opacity: 0 } );
-	// mesh1 = new THREE.Mesh( geometry1, material1 );
-	// mesh1.rotation.x = -Math.PI/2;
-	// markerRoot1.add( mesh1 );
+	let material1 = new THREE.MeshBasicMaterial( { color: 0x0000ff, opacity: 0 } );
+	mesh1 = new THREE.Mesh( geometry1, material1 );
+	mesh1.rotation.x = -Math.PI/2;
+	mesh1.receiveShadow = true;
+	markerRoot1.add( mesh1 );
 
 	function onProgress(xhr) { console.log( (xhr.loaded / xhr.total * 100) + '% loaded' ); }
 	function onError(xhr) { console.log( 'An error happened' ); }
+	
+	//Create a PointLight and turn on shadows for the light
+	var light = new THREE.PointLight( 0xffffff, 1, 100 );
+	light.position.set( 0, 10, 0 );
+	light.castShadow = true;            // default false
+	markerRoot1.add( light );
+
+	//Set up shadow properties for the light
+	light.shadow.mapSize.width = 512;  // default
+	light.shadow.mapSize.height = 512; // default
+	light.shadow.camera.near = 0.5;       // default
+	light.shadow.camera.far = 500      // default
 
 	new THREE.MTLLoader()
 		.setPath( 'models/' )
@@ -126,6 +139,8 @@ function initialize() {
 					mesh0.rotation.x = Math.PI / -2;
 					mesh0.scale.set(2, 2, 2);
 					markerRoot1.add(mesh0);
+					mesh0.castShadow = true; //default is false
+					mesh0.receiveShadow = false; //default
 				}, onProgress, onError );
       }
     );
